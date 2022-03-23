@@ -1,6 +1,6 @@
-#Makefile for Assignment 1
+#Makefile for Assignment 2
 #Nkosinathi Tshaphile
-#28 February 2022
+#28 March 2022
 
 JAVAC=/usr/bin/javac
 .SUFFIXES: .java .class
