@@ -17,6 +17,8 @@ public class AVLExperiment {
 	public static AVLTree<String>  avl_tree;
 	public static int bestcase,worstcase;
 	public static String[] arrAVL = new String[9919];
+
+	private static Scanner keyboard;
 	
 	
 	 /*
@@ -39,7 +41,7 @@ public class AVLExperiment {
 	      for(int a = 0;a < 9918;a++){
 	         if((arrCountry[a] + arrDate[a]).equals(data + day)){
 	             check = true;
-	             result = ("There are  "+aCountry.SearchOperation() + " iterations for "+ arrCountry[a] );
+	             result = ("There are  "+aCountry.SearchOperation() + " search operations for "+ arrCountry[a]+ " ,and " + aCountry.InsertOperation() + " insert operations.");
 	             
 	                  if(bestcase > aCountry.SearchOperation())
 	                   bestcase = aCountry.SearchOperation(); 
@@ -49,7 +51,6 @@ public class AVLExperiment {
 	         }
 	         
 	      }
-	      result = result + bestcase + " " + worstcase;
 	      
 	      if(check == false){
 	         result = (place + " = <Not Found>");
@@ -60,48 +61,7 @@ public class AVLExperiment {
 	            return result;
 	      }
 	   }
-
-	/*
-	   This method is used to test the traditional array using 10 different subsets of values that are spaced equally apart.
-	   For each subset of values the number of iterations required to find the country + date combination is given
-	   The best case, the worst case and the aveage case is determined for each seperate subset
-	   Each result is written to a separate textfile ranging from sample1 to sample10 for the 10 substet values.
-	   The method also takes in the subset value, the Date and the PrintWriter file as arguments.
-	**/      
-	      public static String calculatesubsets(int subset,String sDate){  
-	         Random randNum=new Random();        
-	         int opCount = 0;
-	         int average = 0;   
-	         int smallest = 0;
-	         int biggest = aCountry.SearchOperation();
-	         int  max=subset;
-	         int  min=1;
-	         int  n_subset=min+ randNum.nextInt(max);
-	         
-	         for(int p=0;p<subset -1;p++){
-	         		  int l=n_subset;  
-	           if (l+p > 9919){
-	            System.out.println("Number of lines exceeded");
-	            break;
-	           }else{    
-	              System.out.println(printComparisons(arrCountry[l+p],sDate,aCountry.root,subset));
-	              
-	              opCount = opCount + aCountry.SearchOperation();
-	              if (smallest > aCountry.SearchOperation()){
-	                  smallest = aCountry.SearchOperation();
-	              } //end of if
-	              if(biggest < aCountry.SearchOperation()){
-	                  biggest = aCountry.SearchOperation();
-	              }
-					 }
-	            } 
-	             
-	             average  = (opCount / subset);
-	             System.out.println(average);
-	             System.out.println("The average case is" + average +"|The worst case is "+biggest + "|And the best case is "+ smallest) ; 
-	      //       sampledata.println("The average case is" + average +"|The worst case is "+biggest + "|And the best case is "+ smallest); 
-	            return ("The average case " + average +" " +opCount +" "+ subset);
-	   }	
+	      
 	      
 	   public static String randomizeData(String[] arrayCountry, int subset, String sDate, PrintWriter sampledata) throws NullPointerException{
 		   String result = "";
@@ -136,8 +96,9 @@ public class AVLExperiment {
 		            } 
 		             
 		             average  = (opCount / subset);
-		             System.out.println(average);
-		             System.out.println("The average case is" + average +"|The worst case is "+biggest + "|And the best case is "+ smallest) ; 
+                     
+		             System.out.println("The average value is" + average +"|The maximum value is "+biggest + "|And the minimum value is "+ smallest) ; 
+		             sampledata.println();
 
 		   return result;
 		   
@@ -149,28 +110,17 @@ public class AVLExperiment {
 	   The method then calls the calculatesubsets method to write the results to the 10 different textfiles for the 10 different subsets
 	   There is only one argument, it is the date
 	 */
-	    public static void createFiles(int ram_no,String sDate) throws IOException{
-	     
-	   //  FileWriter w=new FileWriter(new File("first_BSTAnd_Comparison.txt"),true);
-	     
-	  //   PrintWriter first_subset=new PrintWriter(w);     
-	     int MAX_WORD_LEN = ram_no; // making this dynamic left as an excercise
+	    public static void createFiles(String ram_no,String sDate) throws IOException{
+	    	
+	     int randomization_no =Integer.parseInt(ram_no); // making this dynamic left as an excercise
 	     List<PrintWriter> writers = new ArrayList<PrintWriter>();
 
-	     for (int i = 0; i <= MAX_WORD_LEN; i++) {
+	     for (int i = 0; i <= randomization_no; i++) {
 	         PrintWriter randomized_file = new PrintWriter("C:/UCT/Assignment 2/RandomizedData/Randomizedfile" + i + ".txt", "UTF-8");
 	         writers.add(randomized_file);
 	         randomizeData(arrCountry,9919,sDate,randomized_file);
 	     }
 
-	/**     String line;
-	     while ((line = tr.readLine()) != null) {
-	        int len = line.length();
-	        if (len < writers.size()) {
-	            writers.get(len).println(line);
-	        }
-	     }
-      */
 	     for (PrintWriter randomized_file : writers) {
 	         randomized_file.close();
 	     }
@@ -179,7 +129,8 @@ public class AVLExperiment {
 
 	
    public static void main(String[] args) throws IOException {
-	   Scanner keyboard = new  Scanner(System.in);
+	   //int search =0;
+	   keyboard = new  Scanner(System.in);
 	   aCountry = new AVLTree<String>();
 	   String sDate;
 	   
@@ -198,24 +149,21 @@ public class AVLExperiment {
 		   arrCountry[counter] = country;
 		   arrDate[counter] = date;
 		   arrnoOfVaccines[counter] = noOfVaccine;
-		   String allData = country + date + noOfVaccine;
+		   String allData = country +" "+date +" "+noOfVaccine;
 		   
 		   aCountry.insert(country);
-		   second_avl.insert(country);
+		   second_avl.insert(allData);
 		   counter++;
 	   }
 	   
+	 /**  for(int a = 0;a< 9919;a++) {
+		  System.out.println(aCountry.InsertOperation() + " operations for " + arrCountry[a] );
+		   
+	   }
+	   */
        System.out.println("Enter the date: ");
        sDate = keyboard.nextLine();
 	   
-/**	   for (int a = 0;a < 9918;a++)
-	   {
-		   
-		   System.out.println(arrCountry[a]);
-	   }
-	*/  
-      // randomizeData(arrCountry,9918);
-      // System.out.println("Second randozimation");
-       createFiles(20,sDate);
+       createFiles(args[0],sDate);
    }
 }

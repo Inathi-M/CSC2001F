@@ -9,6 +9,7 @@ public class AVLTree<dataType extends Comparable<? super dataType>> extends Bina
 	public static int insertCount;
 	public static int searchCount = 0; 
 	public static int searchCount2;
+	public static int insertCount2;
    public int height ( BinaryTreeNode<dataType> node )
    {
 	   
@@ -67,17 +68,21 @@ public class AVLTree<dataType extends Comparable<? super dataType>> extends Bina
 
    public void insert ( dataType d )
    {
+	  insertCount++;
       root = insert (d, root);
    }
    public BinaryTreeNode<dataType> insert ( dataType d, BinaryTreeNode<dataType> node )
    {
-	   insertCount++;
+	   //insertCount++;
       if (node == null)
          return new BinaryTreeNode<dataType> (d, null, null);
-      if (d.compareTo (node.data) <= 0)
+
+      if (d.compareTo (node.data) <= 0) {
+    	  
          node.left = insert (d, node.left);
-      else
+      }else {
          node.right = insert (d, node.right);
+      }
       return balance (node);
    }
    
@@ -166,7 +171,7 @@ public class AVLTree<dataType extends Comparable<? super dataType>> extends Bina
    
    public int InsertOperation() {
 	   
-	   return insertCount;
+	   return insertCount2;
    }
    
    
