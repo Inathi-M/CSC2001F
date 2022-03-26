@@ -37,7 +37,7 @@ public class AVLExperiment {
 	  * @return	result
 	  * @throws NullPointerException
 	  */
-	      public static String printComparisons(String place, String day,BinaryTreeNode<String> rootNode,int SampleSize) throws NullPointerException{
+	      public static String printOperations(String place, String day,BinaryTreeNode<String> rootNode,int SampleSize) throws NullPointerException{
 	      int averagecase = 0;
 	      String result = "";
 	      BinaryTreeNode<String> BTN = aCountry.find(place,rootNode);
@@ -96,8 +96,8 @@ public class AVLExperiment {
 			   }else {
 				   System.out.println(l+x);
 				  // System.out.println(arrCountry[x+l]);
-				   System.out.println(printComparisons(arrCountry[l+x],sDate,aCountry.root,subset));
-				   sampledata.println(printComparisons(arrCountry[l+x],sDate,aCountry.root,subset));
+				   System.out.println(printOperations(arrCountry[l+x],sDate,aCountry.root,subset));
+				   sampledata.println(printOperations(arrCountry[l+x],sDate,aCountry.root,subset));
 				   
 				   
 		              opCount = opCount + aCountry.SearchOperation();
